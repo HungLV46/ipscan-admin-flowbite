@@ -29,6 +29,7 @@
 		"@sveltejs/kit": "^2.5.9",
 		"@sveltejs/vite-plugin-svelte": "^3.1.0",
 		"@types/eslint": "8.56.0",
+		"@types/underscore": "^1.11.15",
 		"@typescript-eslint/eslint-plugin": "^6.21.0",
 		"@typescript-eslint/parser": "^6.21.0",
 		"autoprefixer": "^10.4.19",
@@ -58,7 +59,8 @@
 	"dependencies": {
 		"flowbite-svelte": "^0.44.24",
 		"flowbite-svelte-icons": "^1.6.1",
-		"tailwind-merge": "^2.3.0"
+		"tailwind-merge": "^2.3.0",
+		"underscore": "^1.13.7"
 	},
 	"keywords": [
 		"svelte",

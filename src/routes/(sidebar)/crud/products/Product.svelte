@@ -1,68 +1,95 @@
 <script lang="ts">
-	import { Button, CloseButton, Heading, Input, Label, Select, Textarea } from 'flowbite-svelte';
-	import { CloseOutline } from 'flowbite-svelte-icons';
-	export let hidden: boolean = true; // modal control
+	import { Button, Input, Label, Modal, Textarea } from 'flowbite-svelte';
+	export let open: boolean = false; // modal control
+
+	export let data: Record<string, string> = {};
+
+	function init(form: HTMLFormElement) {
+		if (data?.name) [data.first_name, data.last_name] = data.name.split(' ');
+		for (const key in data) {
+			// console.log(key, data[key]);
+			const el = form.elements.namedItem(key);
+			if (el) el.value = data[key];
+		}
+	}
+	1;
 </script>
 
-<Heading tag="h5" class="mb-6 text-sm font-semibold uppercase">Add new product</Heading>
-<CloseButton
-	on:click={() => (hidden = true)}
-	class="absolute right-2.5 top-2.5 text-gray-400 hover:text-black dark:text-white"
-/>
+<Modal
+	bind:open
+	title={Object.keys(data).length ? 'Edit user' : 'Add new user'}
+	size="md"
+	class="m-4"
+>
+	<!-- Modal body -->
+	<div class="space-y-6 p-0">
+		<form action="#" use:init>
+			<div class="grid grid-cols-6 gap-6">
+				<Label class="col-span-6 space-y-2 sm:col-span-3">
+					<span>First Name</span>
+					<Input name="first_name" class="border outline-none" placeholder="e.g. Bonnie" required />
+				</Label>
+				<Label class="col-span-6 space-y-2 sm:col-span-3">
+					<span>Last Name</span>
+					<Input name="last_name" class="border outline-none" placeholder="e.g. Green" required />
+				</Label>
+				<Label class="col-span-6 space-y-2 sm:col-span-3">
+					<span>Email</span>
+					<Input
+						name="email"
+						type="email"
+						class="border outline-none"
+						placeholder="e.g. bonnie@flowbite.com"
+					/>
+				</Label>
+				<Label class="col-span-6 space-y-2 sm:col-span-3">
+					<span>Position</span>
+					<Input
+						name="position"
+						class="border outline-none"
+						placeholder="e.g. React Developer"
+						required
+					/>
+				</Label>
 
-<form action="#">
-	<div class="space-y-4">
-		<Label class="space-y-2">
-			<span>Name</span>
-			<Input
-				name="title"
-				class="border font-normal outline-none"
-				placeholder="Type product name"
-				required
-			/>
-		</Label>
+				<Label class="col-span-6 space-y-2 sm:col-span-3">
+					<span>Current Password</span>
+					<Input
+						name="current-password"
+						type="password"
+						class="border outline-none"
+						placeholder="••••••••"
+						required
+					/>
+				</Label>
+				<Label class="col-span-6 space-y-2 sm:col-span-3">
+					<span>New Password</span>
+					<Input
+						name="news-password"
+						type="password"
+						class="border outline-none"
+						placeholder="••••••••"
+						required
+					/>
+				</Label>
 
-		<Label class="space-y-2">
-			<span>Price</span>
-			<Input name="price" class="border font-normal outline-none" placeholder="$2999" required />
-		</Label>
-		<Label class="space-y-2">
-			<span>Technology</span>
-			<Select class="border-gray-300 font-normal outline-none">
-				<option selected>Select category</option>
-				<option value="FL">Flowbite</option>
-				<option value="RE">React</option>
-				<option value="AN">Angular</option>
-				<option value="VU">Vue</option>
-			</Select>
-		</Label>
-		<Label class="space-y-2">
-			<span>Description</span>
-			<Textarea
-				rows="4"
-				placeholder="Enter event description here"
-				class="border-gray-300 font-normal outline-none"
-			></Textarea>
-		</Label>
-		<Label class="space-y-2">
-			<span>Discount</span>
-			<Select class="border-gray-300 font-normal outline-none">
-				<option selected>No</option>
-				<option value="5">5%</option>
-				<option value="10">10%</option>
-				<option value="20">20%</option>
-				<option value="30">30%</option>
-				<option value="40">40%</option>
-				<option value="50">50%</option>
-			</Select>
-		</Label>
-
-		<div class="bottom-0 left-0 flex w-full justify-center space-x-4 pb-4 md:absolute md:px-4">
-			<Button type="submit" class="w-full">Add product</Button>
-			<Button color="alternative" class="w-full" on:click={() => (hidden = true)}>
-				<CloseOutline />
-				Cancel
-			</Button>
-		</div>
+				<Label class="col-span-6 space-y-2">
+					<span>Biography</span>
+					<Textarea
+						id="biography"
+						rows="4"
+						class="bg-gray-50 outline-none dark:bg-gray-700"
+						placeholder="👨‍💻Full-stack web developer. Open-source contributor."
+					>
+						👨‍💻Full-stack web developer. Open-source contributor.
+					</Textarea>
+				</Label>
+			</div>
+		</form>
 	</div>
-</form>
+
+	<!-- Modal footer -->
+	<div slot="footer">
+		<Button type="submit">{Object.keys(data).length ? 'Save all' : 'Add user'}</Button>
+	</div>
+</Modal>
